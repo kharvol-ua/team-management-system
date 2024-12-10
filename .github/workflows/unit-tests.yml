@@ -9,16 +9,25 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0.39
+        env:
+          MYSQL_DATABASE: ${{ secrets.TMS_TEST_DATASOURCE_NAME }}
+          MYSQL_USER: ${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
+          MYSQL_RANDOM_ROOT_PASSWORD: yes
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql version: '8.0.39'
-          mysql database: ${{ secrets.TMS_TEST_DATASOURCE_NAME }}
-          mysql user: ${{ secrets.TMS_TEST_DATASOURCE_USER }}
-          mysql password: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
+#      - name: Setup MySQL
+#        uses: mirromutth/mysql-action@v1.1
+#        with:
+#          mysql version: '8.0.39'
+#          mysql database: ${{ secrets.TMS_TEST_DATASOURCE_NAME }}
+#          mysql user: ${{ secrets.TMS_TEST_DATASOURCE_USER }}
+#          mysql password: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -26,4 +35,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run unit-test
-        run: mvn -B -DTEST_PROFILE=test clean test --file pom.xml
+        env:
+          TEST_PROFILE=ci
+          TMS_TEST_DATASOURCE_URL=jdbc:mysql://mysql/${{ secrets.TMS_TEST_DATASOURCE_NAME }}
+          TMS_TEST_DATASOURCE_USERNAME=${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
+          TMS_TEST_DATASOURCE_PASSWORD=${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
+        run: mvn -B clean test --file pom.xml
