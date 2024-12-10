@@ -36,8 +36,8 @@ jobs:
           cache: maven
       - name: Run unit-test
         env:
-          TEST_PROFILE=ci
-          TMS_TEST_DATASOURCE_URL=jdbc:mysql://mysql/${{ secrets.TMS_TEST_DATASOURCE_NAME }}
-          TMS_TEST_DATASOURCE_USERNAME=${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
-          TMS_TEST_DATASOURCE_PASSWORD=${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
+          TEST_PROFILE: ci
+          TMS_TEST_DATASOURCE_URL: jdbc:mysql://mysql/${{ secrets.TMS_TEST_DATASOURCE_NAME }}
+          TMS_TEST_DATASOURCE_USERNAME: ${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
+          TMS_TEST_DATASOURCE_PASSWORD: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
         run: mvn -B clean test --file pom.xml
