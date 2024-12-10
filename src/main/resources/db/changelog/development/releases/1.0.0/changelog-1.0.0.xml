@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="TMS-4" author="Kharvol">
+
+        <createTable tableName="user_info">
+            <column name="id" type="varchar(26)"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="created_date" type="datetime"/>
+            <column name="modified_by" type="varchar(255)"/>
+            <column name="modified_date" type="datetime"/>
+            <column name="username" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="first_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="nickname" type="varchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="date_of_birth" type="date"/>
+        </createTable>
+
+        <addPrimaryKey tableName="user_info" columnNames="id"/>
+
+        <addNotNullConstraint tableName="user_info" columnName="id" columnDataType="varchar(26)"/>
+        <addNotNullConstraint tableName="user_info" columnName="username" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="user_info" columnName="password" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="user_info" columnName="status" columnDataType="varchar(255)"/>
+
+        <createIndex tableName="user_info" indexName="USER_INFO_USERNAME_INDEX">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
