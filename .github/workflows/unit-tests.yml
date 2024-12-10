@@ -14,7 +14,7 @@ jobs:
         image: mysql:8.0.39
         env:
           MYSQL_DATABASE: ${{ secrets.TMS_TEST_DATASOURCE_NAME }}
-          MYSQL_USER: ${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
+          MYSQL_USER: ${{ secrets.TMS_TEST_DATASOURCE_USER }}
           MYSQL_PASSWORD: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
           MYSQL_RANDOM_ROOT_PASSWORD: yes
         ports:
@@ -40,6 +40,6 @@ jobs:
         env:
           TEST_PROFILE: ci
           TMS_TEST_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/${{ secrets.TMS_TEST_DATASOURCE_NAME }}
-          TMS_TEST_DATASOURCE_USERNAME: ${{ secrets.TMS_TEST_DATASOURCE_USERNAME }}
+          TMS_TEST_DATASOURCE_USERNAME: ${{ secrets.TMS_TEST_DATASOURCE_USER }}
           TMS_TEST_DATASOURCE_PASSWORD: ${{ secrets.TMS_TEST_DATASOURCE_PASSWORD }}
         run: mvn -B clean test --file pom.xml
